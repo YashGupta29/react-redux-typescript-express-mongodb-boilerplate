@@ -1,0 +1,47 @@
+.register-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.register-form-wrapper{
+    min-width: 320px;
+    padding: 10px 0;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-form-heading{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.register-form-title{
+    font-size: 1.5rem;
+    display: block;
+    font-weight: 700;
+}
+
+.register-form-toggle{
+    font-size: .8rem;
+    color: var(--grey600);
+}
+
+.register-form-toggle span{
+    color: var(--black);
+    font-size: .9rem;
+    cursor: pointer;
+}
+
+.register-form-toggle span:hover{
+    text-decoration: underline;
+}
+
+.register-form{
+    height: 100%;
+    width: 100%;
+}

@@ -1,0 +1,115 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number]{
+    -moz-appearance: textfield;
+}
+
+.input-wraper{
+    padding: 0.5rem;
+}
+
+.input-block{
+    position: relative;
+    display: inline-block;    
+    min-width: 300px;
+    margin: 0;
+}
+
+.input-block.input-full{
+    width: 100%;
+}
+
+.input-label{
+    position: relative;
+    display: inline-block;
+    padding-right: .5rem;
+    margin-bottom: .5rem;
+    font-size: 1rem;
+}
+
+.input-mandatory{
+    position: absolute;
+    right: -.3rem;
+    top: 0;
+}
+
+.input{
+    padding: .6rem;
+    outline: none;
+    border-radius: .3rem;
+    width: 100%;
+    border: 1px solid var(--grey200);
+}
+
+.input.input-small{
+    padding: .4rem;
+}
+
+.input.input-large{
+    padding: .8rem;
+}
+
+.input.input-password, .input.input-with-icon-end{
+    padding-right: 2rem;
+}
+
+.input.input-with-icon-start{
+    padding-left: 2rem;
+}
+
+.input-error{
+    font-size: .7rem;
+    padding-top: .2rem;
+    padding-left: .2rem;
+    color: red;
+}
+
+.input-password-icon, .input-icon, .input-select{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+}
+
+.input-icon-end,.input-password-icon{
+    right: 3%;
+}
+
+.input-icon-start{
+    left: 3%;
+}
+
+.input-wrapper-error{
+    padding-bottom: 0;
+}
+
+.input-wrapper-error .input{
+    border-color: red !important;
+}
+
+.input-select{
+    left: 3%;
+    outline: none;
+    border-radius: .3rem;
+}
+
+.special-label{
+    display: none !important;
+}
+
+.input.input-phone{
+    padding: .5rem !important;
+    outline: none !important;
+    border-radius: .3rem !important;
+    width: 100% !important;
+    border: 1px solid var(--grey200);
+    padding-left: 3rem !important;
+}

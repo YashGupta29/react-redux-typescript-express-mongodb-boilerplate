@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    font-family: "Inter", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* SPINNER */
+.css-q3o1l2{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+
+.spinner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-contained .spinner span,.btn-outlined:hover .spinner span{
+    border-color: var(--white) !important;
+    border-bottom-color: transparent !important;
+}
+
+.btn-contained:hover .spinner span, .btn-outlined .spinner span{
+    border-color: var(--primary) !important;
+    border-bottom-color: transparent !important;
+}

@@ -1,0 +1,42 @@
+.drawer-wrapper{
+    z-index: 100000;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    transition: all .3s ease;
+}
+
+.drawer-wrapper.drawer-open{
+    visibility: visible;
+}
+
+.drawer{
+    z-index: 1000001;
+    background-color: var(--white);
+    height: 100vh;
+    min-width: 280px;
+    width: 30%;
+    position: absolute;
+    top: 0;
+    transition: all .5s ease;
+}
+
+.drawer.drawer-left{
+    left: -100%;
+}
+
+.drawer.drawer-right{
+    right: -100%;
+}
+
+.drawer.drawer-left.drawer-open{
+    left: 0;
+}
+
+.drawer.drawer-right.drawer-open{
+    right: 0;
+}
