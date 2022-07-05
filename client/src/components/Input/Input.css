@@ -40,7 +40,7 @@ input[type=number]{
 .input{
     padding: .6rem;
     outline: none;
-    border-radius: .3rem;
+    border-radius: .3rem;    
     width: 100%;
     border: 1px solid var(--grey200);
 }
@@ -68,7 +68,7 @@ input[type=number]{
     color: red;
 }
 
-.input-password-icon, .input-icon, .input-select{
+.input-password-icon, .input-icon, .input-select,.input-dropdown-icon,.input-date-icon{
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -79,7 +79,7 @@ input[type=number]{
     font-size: 1.2rem;
 }
 
-.input-icon-end,.input-password-icon{
+.input-icon-end,.input-password-icon,.input-dropdown-icon,.input-date-icon{
     right: 3%;
 }
 
@@ -108,8 +108,33 @@ input[type=number]{
 .input.input-phone{
     padding: .5rem !important;
     outline: none !important;
-    border-radius: .3rem !important;
+    border-radius: .3rem !important; 
     width: 100% !important;
     border: 1px solid var(--grey200);
     padding-left: 3rem !important;
+}
+
+.input.input-dropdown{
+    cursor: pointer;
+    padding: .8rem 1rem;
+    text-align: left;
+    position: relative;
+}
+
+.input-dropdown-arrow{
+    top: 50%;
+    transform: translateX(-50%);
+}
+
+.input-dropdown-menu{
+    text-align: left;
+}
+
+.input-dropdown-menu .Dropdown-option{
+    padding: .8rem 1rem;
+}
+
+.input-dropdown-menu .Dropdown-option.is-selected{
+    background-color: var(--golden);
+    color: var(--white);
 }

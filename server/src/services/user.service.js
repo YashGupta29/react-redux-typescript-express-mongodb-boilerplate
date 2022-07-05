@@ -60,6 +60,11 @@ const updateUserById = async (userId, updateBody) => {
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
+
+  if (updateBody.password && !(await user.isPasswordMatch(updateBody.oldPassword))) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Wrong Password');
+  }
+
   Object.assign(user, updateBody);
   await user.save();
   return user;

@@ -12,8 +12,8 @@ const createUser = {
 
 const getUsers = {
   query: Joi.object().keys({
-    name: Joi.string(),
-    role: Joi.string(),
+    name: Joi.alternatives().try(Joi.string(), Joi.array()),
+    role: Joi.alternatives().try(Joi.string(), Joi.array()),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -34,7 +34,12 @@ const updateUser = {
     .keys({
       email: Joi.string().email(),
       password: Joi.string().custom(password),
+      oldPassword: Joi.string().when('password', {
+        is: Joi.exist(),
+        then: Joi.required(),
+      }),
       name: Joi.string(),
+      role: Joi.string().valid('user', 'admin'),
     })
     .min(1),
 };

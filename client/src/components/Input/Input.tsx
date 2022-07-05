@@ -1,13 +1,17 @@
 import React, { FocusEventHandler } from "react";
 import PhoneInput from "react-phone-input-2";
 import CurrencyInput from "react-currency-input-field";
+import Dropdown from "react-dropdown";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-dropdown/style.css";
 import { parsePhoneNumber } from "libphonenumber-js";
 import "react-phone-input-2/lib/material.css";
 import "./Input.css";
 
 // icons
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-
+import { FaCalendarAlt } from "react-icons/fa";
 // interface
 interface IconOptions {
   showStartIcon?: boolean;
@@ -17,19 +21,24 @@ interface IconOptions {
 }
 
 interface DropdownOptions {
-  options?: Array<{ key: string; value: any }>;
+  options?: Array<{ label: string; value: any }>;
   defaultValue?: any;
+  showDefaultValue?: boolean;
 }
 
 interface InputProps {
   type?:
     | "text"
+    | "number"
+    | "textarea"
     | "email"
     | "password"
     | "price"
     | "mobile"
     | "telephone"
     | "dropdown"
+    | "date"
+    | "price"
     | "searchableDropdown";
   name?: string;
   placeholder?: string;
@@ -57,6 +66,7 @@ interface InputProps {
   size?: "small" | "medium" | "large";
   iconOptions?: IconOptions;
   dropdownOptions?: DropdownOptions;
+  rows?: number;
   isNumberValid?: (isValid: boolean) => void;
 }
 
@@ -79,6 +89,7 @@ const Input: React.FC<InputProps> = ({
   iconOptions,
   dropdownOptions,
   isNumberValid,
+  rows = 5,
 }) => {
   // functions
   function getInputComponent() {
@@ -96,11 +107,16 @@ const Input: React.FC<InputProps> = ({
       dropdownOptions,
       cssClasses,
       isNumberValid,
+      rows,
+      type,
     };
     switch (type) {
       case "text":
       case "email":
+      case "number":
         return <TextInput {...props} />;
+      case "textarea":
+        return <TextareaInput {...props} />;
       case "password":
         return <PasswordInput {...props} />;
       case "price":
@@ -109,6 +125,8 @@ const Input: React.FC<InputProps> = ({
         return <MobileInput {...props} />;
       case "dropdown":
         return <DropdownInput {...props} />;
+      case "date":
+        return <DatePickerInput {...props} />;
       // @TODO ---
       // case "telephone":
       //   return <TelephoneInput {...props} />;
@@ -146,6 +164,7 @@ const TextInput: React.FC<InputProps> = ({
   onFocus,
   value,
   iconOptions,
+  type,
 }) => {
   return (
     <div className={`input-block ${fullWidth ? "input-full" : ""}`}>
@@ -157,7 +176,7 @@ const TextInput: React.FC<InputProps> = ({
       <input
         name={name}
         placeholder={placeholder}
-        type="text"
+        type={type === "number" ? "number" : "text"}
         className={`input input-${size} ${
           iconOptions?.showStartIcon &&
           iconOptions.startIcon &&
@@ -173,6 +192,52 @@ const TextInput: React.FC<InputProps> = ({
         onFocus={onFocus}
         value={value}
       />
+      {iconOptions?.showEndIcon && iconOptions.endIcon && (
+        <div className={`input-icon input-icon-end`}>{iconOptions.endIcon}</div>
+      )}
+    </div>
+  );
+};
+
+const TextareaInput: React.FC<InputProps> = ({
+  name,
+  placeholder,
+  size,
+  fullWidth,
+  disabled,
+  onChange,
+  onBlur,
+  onFocus,
+  value,
+  iconOptions,
+  rows,
+}) => {
+  return (
+    <div className={`input-block ${fullWidth ? "input-full" : ""}`}>
+      {iconOptions?.showStartIcon && iconOptions.startIcon && (
+        <div className={`input-icon input-icon-start`}>
+          {iconOptions.startIcon}
+        </div>
+      )}
+      <textarea
+        name={name}
+        placeholder={placeholder}
+        className={`input input-${size} ${
+          iconOptions?.showStartIcon &&
+          iconOptions.startIcon &&
+          "input-with-icon-start"
+        } ${
+          iconOptions?.showEndIcon &&
+          iconOptions.endIcon &&
+          "input-with-icon-end"
+        }`}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        value={value}
+        rows={rows}
+      ></textarea>
       {iconOptions?.showEndIcon && iconOptions.endIcon && (
         <div className={`input-icon input-icon-end`}>{iconOptions.endIcon}</div>
       )}
@@ -289,39 +354,71 @@ const MobileInput: React.FC<InputProps> = ({
 };
 
 const DropdownInput: React.FC<InputProps> = ({
-  name,
   placeholder,
   size,
   fullWidth,
   disabled,
   onChange,
-  onBlur,
-  onFocus,
   value,
   dropdownOptions,
 }) => {
+  // function
+  const handleDropdownChange = (value: string) => {
+    onChange(value);
+  };
   return (
     <div className={`input-block ${fullWidth ? "input-full" : ""}`}>
-      <select
-        name={name}
-        className={`input input-${size}`}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        placeholder={placeholder}
+      {dropdownOptions && (
+        <Dropdown
+          disabled={disabled}
+          placeholder={placeholder}
+          controlClassName={`input input-${size} input-dropdown`}
+          arrowClassName={`input-dropdown-arrow`}
+          menuClassName={`input-dropdown-menu`}
+          options={dropdownOptions.options as any}
+          onChange={(option) => handleDropdownChange(option.value)}
+          value={value}
+        />
+      )}
+    </div>
+  );
+};
+
+const DatePickerInput: React.FC<InputProps> = ({
+  placeholder,
+  size,
+  fullWidth,
+  disabled,
+  onChange,
+  value,
+}) => {
+  const ref: React.Ref<any> = React.useRef(null);
+  // state
+  const [openCalendar, setOpenCalendar] = React.useState(false);
+  // function
+  const handleDateChange = (value: Date) => {
+    onChange(value.toString());
+  };
+  return (
+    <div className={`input-block ${fullWidth ? "input-full" : ""}`}>
+      <DatePicker
+        placeholderText={placeholder}
         disabled={disabled}
-        defaultValue={dropdownOptions?.defaultValue}
-        value={value}
+        className={`input input-datepicker input-${size}`}
+        selected={new Date(value)}
+        onChange={handleDateChange}
+        showTimeSelect
+        ref={ref}
+      />
+      <div
+        className={`input-date-icon`}
+        onClick={() => {
+          ref.current?.setFocus(!openCalendar);
+          setOpenCalendar(!openCalendar);
+        }}
       >
-        {!dropdownOptions?.defaultValue && (
-          <option value={""}>Select ..</option>
-        )}
-        {dropdownOptions?.options?.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.key}
-          </option>
-        ))}
-      </select>
+        {<FaCalendarAlt />}
+      </div>
     </div>
   );
 };
